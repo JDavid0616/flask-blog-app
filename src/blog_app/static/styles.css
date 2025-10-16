@@ -1,0 +1,53 @@
+
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --text: #e6edf3;
+  --muted: #9aa6b2;
+  --primary: #2f81f7;
+  --danger: #f85149;
+  --success: #2ea043;
+  --border: #30363d;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+}
+a { color: var(--primary); text-decoration: none; }
+.container { width: min(960px, 92vw); margin: 24px auto; }
+
+.site-header { background: var(--card); border-bottom: 1px solid var(--border); }
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
+.brand { font-weight: 700; color: var(--text); }
+.nav-right .btn { margin-left: 8px; }
+
+.btn { background: var(--primary); color: white; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--primary); }
+.btn:hover { opacity: .95; }
+.btn.outline { background: transparent; border-color: var(--border); color: var(--text); }
+
+.user-pill { margin-right: 8px; color: var(--muted); }
+
+.post-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
+.post-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.post-card h2 { margin: 0 0 8px 0; }
+.excerpt { color: var(--muted); }
+.muted { color: var(--muted); }
+
+.field { margin-bottom: 12px; }
+.field.inline { display: flex; align-items: center; gap: 8px; }
+input[type="text"], input[type="email"], input[type="password"], textarea {
+  width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);
+  background: #0b0f14; color: var(--text);
+}
+label { display: inline-block; margin-bottom: 6px; color: var(--muted); }
+
+.actions { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+
+.flash-list { list-style: none; padding: 0; margin: 0 0 16px 0; }
+.flash { padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; }
+.flash.success { background: rgba(46,160,67,.2); border: 1px solid var(--success); }
+.flash.danger { background: rgba(248,81,73,.2); border: 1px solid var(--danger); }
+.flash.warning { background: rgba(255,188,0,.15); border: 1px solid #d29922; }
+
+.site-footer { border-top: 1px solid var(--border); padding: 16px; text-align: center; color: var(--muted); }
