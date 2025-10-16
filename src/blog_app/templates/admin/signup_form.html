@@ -1,0 +1,24 @@
+
+{% extends "base_template.html" %}
+{% block content %}
+  <h1>Crear cuenta</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">
+      {{ form.name.label }} {{ form.name(size=40) }}
+      {% for e in form.name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.email.label }} {{ form.email(size=40) }}
+      {% for e in form.email.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.password.label }} {{ form.password(size=40) }}
+      {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="actions">
+      {{ form.submit(class="btn") }}
+      <a href="{{ url_for('login') }}" class="link">¿Ya tienes cuenta?</a>
+    </div>
+  </form>
+{% endblock %}

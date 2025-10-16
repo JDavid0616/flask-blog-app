@@ -1,0 +1,46 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Blog Simple</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a href="{{ url_for('index') }}" class="brand">Blog Simple</a>
+    <div class="nav-right">
+      {% if current_user.is_authenticated %}
+        <span class="user-pill">Hola, {{ current_user.name }}</span>
+        <a href="{{ url_for('create_post') }}" class="btn">Nuevo Post</a>
+        <a href="{{ url_for('logout') }}" class="btn outline">Cerrar sesión</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn">Iniciar sesión</a>
+        <a href="{{ url_for('signup') }}" class="btn outline">Crear cuenta</a>
+      {% endif %}
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash-list">
+        {% for category, message in messages %}
+          <li class="flash {{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+  {{ content|safe }}
+</main>
+
+<footer class="site-footer">
+  <small>&copy; {{ config.SITE_NAME or "Blog Simple" }} - 2025</small>
+</footer>
+</body>
+</html>
