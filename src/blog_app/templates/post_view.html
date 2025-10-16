@@ -1,0 +1,9 @@
+
+{% extends "base_template.html" %}
+{% block content %}
+  <article class="post-view">
+    <h1>{{ post.title }}</h1>
+    <p class="muted">Categoría: {{ post.category }} • Autor: {{ post.author.name }}</p>
+    <div class="content">{{ post.content|safe }}</div>
+  </article>
+{% endblock %}

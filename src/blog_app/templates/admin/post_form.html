@@ -1,0 +1,24 @@
+
+{% extends "base_template.html" %}
+{% block content %}
+  <h1>Nuevo Post</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">
+      {{ form.title.label }} {{ form.title(size=60) }}
+      {% for e in form.title.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.category.label }} {{ form.category(size=40) }}
+      {% for e in form.category.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="field">
+      {{ form.content.label }} {{ form.content(rows=8, cols=60) }}
+      {% for e in form.content.errors %}<div class="error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="actions">
+      {{ form.submit(class="btn") }}
+      <a href="{{ url_for('index') }}" class="btn outline">Cancelar</a>
+    </div>
+  </form>
+{% endblock %}
