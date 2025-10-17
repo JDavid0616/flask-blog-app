@@ -1,7 +1,7 @@
 
 {% extends "base_template.html" %}
 {% block content %}
-  <h1>Crear cuenta</h1>
+  <h1>Create Account</h1>
   <form method="post" novalidate>
     {{ form.hidden_tag() }}
     <div class="field">
@@ -18,7 +18,7 @@
     </div>
     <div class="actions">
       {{ form.submit(class="btn") }}
-      <a href="{{ url_for('login') }}" class="link">¿Ya tienes cuenta?</a>
+      <a href="{{ url_for('login') }}" class="link">Already have an account?</a>
     </div>
   </form>
 {% endblock %}

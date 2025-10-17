@@ -1,19 +1,19 @@
 
 {% extends "base_template.html" %}
 {% block content %}
-  <h1>Últimos Posts</h1>
+  <h1>Latest Posts</h1>
   {% if posts %}
     <ul class="post-list">
       {% for post in posts %}
         <li class="post-card">
           <h2><a href="{{ post.public_url() }}">{{ post.title }}</a></h2>
-          <p class="muted">Categoría: {{ post.category }}</p>
+          <p class="muted">Category: {{ post.category }}</p>
           <p class="excerpt">{{ post.content[:160] }}{% if post.content|length > 160 %}…{% endif %}</p>
-          <a href="{{ post.public_url() }}" class="link">Leer más →</a>
+          <a href="{{ post.public_url() }}" class="link">Read more→</a>
         </li>
       {% endfor %}
     </ul>
   {% else %}
-    <p>No hay posts todavía. {% if current_user.is_authenticated %}Crea el primero <a href="{{ url_for('create_post') }}">aquí</a>.{% endif %}</p>
+    <p>No posts yet. {% if current_user.is_authenticated %}Create the first one <a href="{{ url_for('create_post') }}">here</a>.{% endif %}</p>
   {% endif %}
 {% endblock %}

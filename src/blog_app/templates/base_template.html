@@ -13,12 +13,12 @@
     <a href="{{ url_for('index') }}" class="brand">Blog Simple</a>
     <div class="nav-right">
       {% if current_user.is_authenticated %}
-        <span class="user-pill">Hola, {{ current_user.name }}</span>
-        <a href="{{ url_for('create_post') }}" class="btn">Nuevo Post</a>
-        <a href="{{ url_for('logout') }}" class="btn outline">Cerrar sesión</a>
+        <span class="user-pill">Hello, {{ current_user.name }}</span>
+        <a href="{{ url_for('create_post') }}" class="btn">New Post</a>
+        <a href="{{ url_for('logout') }}" class="btn outline">Log out</a>
       {% else %}
-        <a href="{{ url_for('login') }}" class="btn">Iniciar sesión</a>
-        <a href="{{ url_for('signup') }}" class="btn outline">Crear cuenta</a>
+        <a href="{{ url_for('login') }}" class="btn">Log in</a>
+        <a href="{{ url_for('signup') }}" class="btn outline">Create Account</a>
       {% endif %}
     </div>
   </nav>
@@ -40,7 +40,7 @@
 </main>
 
 <footer class="site-footer">
-  <small>&copy; {{ config.SITE_NAME or "Blog Simple" }} - 2025</small>
+  <small>&copy; {{ config.SITE_NAME or "Blog Simple - JDMM y SGA" }} - 2025</small>
 </footer>
 </body>
 </html>
