@@ -7,6 +7,7 @@ Fulfills requirements: Flask-Login, Flask-WTF, SQLAlchemy, PostgreSQL, slugs, CS
 from __future__ import annotations
 import os
 from urllib.parse import urlparse, urljoin
+from flask_wtf.csrf import CSRFProtect
 
 from flask import (
     Flask, render_template, redirect, url_for, flash, request, abort
@@ -43,6 +44,9 @@ def create_app() -> Flask:
     login_manager = LoginManager()
     login_manager.login_view = "login"
     login_manager.init_app(app)
+
+    csrf = CSRFProtect()
+    csrf.init_app(app)
 
     @login_manager.user_loader
     def load_user(user_id: str):
@@ -151,13 +155,86 @@ def create_app() -> Flask:
             flash("Post created successfully!", "success")
             return redirect(post.public_url())
 
-        return render_template("admin/post_form.html", form=form)
+        # Pass 'action' to make the template reusable
+        return render_template("admin/post_form.html", form=form, action="Create")
+
+    # --- START OF NEW CODE (CRUD: Update & Delete) ---
+
+    @app.route('/admin/post/edit/<string:slug>', methods=['GET', 'POST'])
+    @login_required
+    def edit_post(slug: str):
+        """
+        Protected route to edit an existing post.
+        Ensures the current user is the author.
+        """
+        post = Post.get_by_slug(slug)
+
+        # 404 if the post doesn't exist
+        if not post:
+            abort(404)
+
+        # 403 (Forbidden) if the user is not the author
+        if post.user_id != current_user.id:
+            abort(403)
+
+        # Reuse the same creation form
+        form = PostForm()
+
+        if form.validate_on_submit():
+            # Update post data from the form
+            post.title = form.title.data
+            post.category = form.category.data
+            post.content = form.content.data
+            post.save()  # The save() method (commit) persists the changes
+
+            flash('Post updated successfully!', 'success')
+            # Redirect to the post's public view
+            return redirect(post.public_url())
+
+        elif request.method == 'GET':
+            # Pre-populate the form with the post's current data
+            form.title.data = post.title
+            form.category.data = post.category
+            form.content.data = post.content
+
+        # Reuse the template, passing the 'action'
+        return render_template('admin/post_form.html', form=form, action='Edit')
+
+
+    @app.route('/admin/post/delete/<string:slug>', methods=['POST'])
+    @login_required
+    def delete_post(slug: str):
+        """
+        Protected route to delete a post (POST only).
+        Ensures the current user is the author.
+        """
+        post = Post.get_by_slug(slug)
+
+        # Use 404 (instead of 403) to avoid revealing the post's existence
+        # if the user is not the author.
+        if not post or post.user_id != current_user.id:
+            abort(404)
+
+        post_title = post.title
+        post.delete()  # Use the new model method
+
+        flash(f'Post "{post_title}" has been deleted.', 'success')
+        return redirect(url_for('index'))
+
+    # --- END OF NEW CODE ---
 
     # --- Error handlers ---
 
     @app.errorhandler(404)
     def not_found(error):
-        return render_template("base_template.html", content="<h1>404 Not Found</h1>"), 404
+        # Render a full page for 404
+        return render_template("index.html", error="404: Page Not Found"), 404
+
+    @app.errorhandler(403)
+    def forbidden(error):
+        """Handler for 403 Forbidden errors."""
+        return render_template("index.html", error="403: You do not have permission to access this page."), 403
+
 
     # --- Create tables on first request (development convenience) ---
     @app.before_request

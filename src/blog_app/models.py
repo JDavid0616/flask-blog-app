@@ -115,6 +115,11 @@ class Post(db.Model):
                     db.session.rollback()
                     counter += 1
 
+    def delete(self) -> None:
+        """Deletes the object from the database."""
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def get_by_slug(slug: str) -> Optional["Post"]:
         """Get a single post by slug."""
